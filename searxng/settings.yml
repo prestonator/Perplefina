@@ -81,7 +81,7 @@ search:
 
 server:
   # Is overwritten by ${SEARXNG_PORT} and ${SEARXNG_BIND_ADDRESS}
-  port: 4000
+  port: 8080
   bind_address: '0.0.0.0'
   # public URL of the instance, to ensure correct inbound links. Is overwritten
   # by ${SEARXNG_BASE_URL}.
@@ -500,11 +500,11 @@ engines:
     disabled: true
 
   # Requires Tor
-  - name: ahmia
-    engine: ahmia
-    categories: onions
-    enable_http: true
-    shortcut: ah
+#  - name: ahmia
+#    engine: ahmia
+#    categories: onions
+#    enable_http: true
+#    shortcut: ah
 
   - name: anaconda
     engine: xpath
@@ -720,11 +720,11 @@ engines:
   #   # get your API key from: https://core.ac.uk/api-keys/register/
   #   api_key: 'unset'
 
-  - name: cppreference
-    engine: cppreference
-    shortcut: cpp
-    paging: false
-    disabled: true
+#  - name: cppreference
+#    engine: cppreference
+#    shortcut: cpp
+#    paging: false
+#    disabled: true
 
   - name: crossref
     engine: crossref
@@ -1480,20 +1480,20 @@ engines:
       results: JSON
 
   # https://docs.searxng.org/dev/engines/online/mullvad_leta.html
-  - name: mullvadleta
-    engine: mullvad_leta
-    disabled: true
-    leta_engine: google
-    categories: [general, web]
-    shortcut: ml
-
-  - name: mullvadleta brave
-    engine: mullvad_leta
-    network: mullvadleta
-    disabled: true
-    leta_engine: brave
-    categories: [general, web]
-    shortcut: mlb
+#  - name: mullvadleta
+#    engine: mullvad_leta
+#    disabled: true
+#    leta_engine: google
+#    categories: [general, web]
+#    shortcut: ml
+#
+#  - name: mullvadleta brave
+#    engine: mullvad_leta
+#    network: mullvadleta
+#    disabled: true
+#    leta_engine: brave
+#    categories: [general, web]
+#    shortcut: mlb
 
   - name: odysee
     engine: odysee
@@ -1643,6 +1643,7 @@ engines:
       - https://api.piped.private.coffee
       - https://pipedapi.darkness.services
 
+
   - name: piped.music
     engine: piped
     network: piped
@@ -1650,6 +1651,15 @@ engines:
     categories: music
     piped_filter: music_songs
     timeout: 3.0
+    frontend_url: https://srv.piped.video  # Add this line
+
+#  - name: piped.music
+#    engine: piped
+#    network: piped
+#    shortcut: ppdm
+#    categories: music
+#    piped_filter: music_songs
+#    timeout: 3.0
 
   - name: piratebay
     engine: piratebay
@@ -1847,9 +1857,10 @@ engines:
   #   categories: files
   #   disabled: true
 
-  - name: radio browser
-    engine: radio_browser
-    shortcut: rb
+#  - name: radio browser
+#    engine: radio_browser
+#    shortcut: rb
+#    disabled: true
 
   - name: reddit
     engine: reddit
@@ -2121,17 +2132,17 @@ engines:
     disabled: true
 
   # Requires Tor
-  - name: torch
-    engine: xpath
-    paging: true
-    search_url: http://xmh57jrknzkhv6y3ls3ubitzfqnkrwxhopf5aygthi7d6rplyvk3noyd.onion/cgi-bin/omega/omega?P={query}&DEFAULTOP=and
-    results_xpath: //table//tr
-    url_xpath: ./td[2]/a
-    title_xpath: ./td[2]/b
-    content_xpath: ./td[2]/small
-    categories: onions
-    enable_http: true
-    shortcut: tch
+#  - name: torch
+#    engine: xpath
+#    paging: true
+#    search_url: http://xmh57jrknzkhv6y3ls3ubitzfqnkrwxhopf5aygthi7d6rplyvk3noyd.onion/cgi-bin/omega/omega?P={query}&DEFAULTOP=and
+#    results_xpath: //table//tr
+#    url_xpath: ./td[2]/a
+#    title_xpath: ./td[2]/b
+#    content_xpath: ./td[2]/small
+#    categories: onions
+#    enable_http: true
+#    shortcut: tch
 
   # TubeArchivist is a self-hosted Youtube archivist software.
   # https://docs.searxng.org/dev/engines/online/tubearchivist.html
@@ -2353,6 +2364,7 @@ engines:
     shortcut: wc
     categories: images
     search_type: images
+    wc_search_type: image
     number_of_results: 10
 
   - name: wikicommons.videos
@@ -2360,6 +2372,7 @@ engines:
     shortcut: wcv
     categories: videos
     search_type: videos
+    wc_search_type: video
     number_of_results: 10
 
   - name: wikicommons.audio
@@ -2367,6 +2380,7 @@ engines:
     shortcut: wca
     categories: music
     search_type: audio
+    wc_search_type: audio
     number_of_results: 10
 
   - name: wikicommons.files
@@ -2374,6 +2388,7 @@ engines:
     shortcut: wcf
     categories: files
     search_type: files
+    wc_search_type: file
     number_of_results: 10
 
   - name: wolframalpha
