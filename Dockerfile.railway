@@ -32,9 +32,9 @@ RUN apt-get update && apt-get install -y \
 
 # Install SearXNG
 RUN python3 -m venv /usr/local/searxng/venv
-ENV PATH="/usr/local/searxng/venv/bin: $PATH"
+ENV PATH="/usr/local/searxng/venv/bin:$PATH"
 
-RUN git clone https://github.com/searxng/searxng. git /usr/local/searxng/searxng-src \
+RUN git clone https://github.com/searxng/searxng.git /usr/local/searxng/searxng-src \
     && cd /usr/local/searxng/searxng-src \
     && pip install --no-cache-dir -r requirements.txt \
     && pip install --no-cache-dir -e .
