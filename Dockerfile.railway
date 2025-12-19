@@ -27,7 +27,6 @@ RUN apt-get update && apt-get install -y \
     python3-venv \
     git \
     curl \
-    gettext-base \
     && rm -rf /var/lib/apt/lists/*
 
 # Install SearXNG
@@ -37,12 +36,10 @@ ENV PATH="/usr/local/searxng/venv/bin:$PATH"
 RUN git clone https://github.com/searxng/searxng.git /usr/local/searxng/searxng-src \
     && cd /usr/local/searxng/searxng-src \
     && pip install --no-cache-dir -r requirements.txt \
-    && pip install --no-cache-dir -e .
+    && pip install --no-cache-dir -e . 
 
-# Create SearXNG user and directories
-RUN useradd -r -s /bin/false searxng \
-    && mkdir -p /etc/searxng \
-    && chown -R searxng:searxng /etc/searxng
+# Create SearXNG directories
+RUN mkdir -p /etc/searxng
 
 # Copy SearXNG configuration
 COPY searxng/settings.yml /etc/searxng/settings.yml
@@ -59,9 +56,6 @@ COPY drizzle ./drizzle
 COPY --from=builder /home/perplexica/migrator/build ./build
 COPY --from=builder /home/perplexica/migrator/index.js ./migrate.js
 
-# Copy config TEMPLATE instead of actual config
-COPY config.toml.template ./config.toml.template
-
 RUN mkdir -p /home/perplexica/uploads
 
 # Create supervisord configuration
@@ -72,6 +66,11 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY entrypoint.railway.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 3000
+# Environment variables - Railway overrides PORT
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+ENV NODE_ENV=production
+
+# Don't specify EXPOSE - Railway uses $PORT dynamically
 
 CMD ["/entrypoint.sh"]
