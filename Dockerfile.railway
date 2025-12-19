@@ -27,13 +27,14 @@ RUN apt-get update && apt-get install -y \
     python3-venv \
     git \
     curl \
+    gettext-base \
     && rm -rf /var/lib/apt/lists/*
 
 # Install SearXNG
 RUN python3 -m venv /usr/local/searxng/venv
-ENV PATH="/usr/local/searxng/venv/bin:$PATH"
+ENV PATH="/usr/local/searxng/venv/bin: $PATH"
 
-RUN git clone https://github.com/searxng/searxng.git /usr/local/searxng/searxng-src \
+RUN git clone https://github.com/searxng/searxng. git /usr/local/searxng/searxng-src \
     && cd /usr/local/searxng/searxng-src \
     && pip install --no-cache-dir -r requirements.txt \
     && pip install --no-cache-dir -e .
@@ -57,7 +58,9 @@ COPY --from=builder /home/perplexica/data ./data
 COPY drizzle ./drizzle
 COPY --from=builder /home/perplexica/migrator/build ./build
 COPY --from=builder /home/perplexica/migrator/index.js ./migrate.js
-COPY config.toml ./config.toml
+
+# Copy config TEMPLATE instead of actual config
+COPY config.toml.template ./config.toml.template
 
 RUN mkdir -p /home/perplexica/uploads
 
@@ -69,7 +72,6 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY entrypoint.railway.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Expose the main application port (Railway will use $PORT)
 EXPOSE 3000
 
 CMD ["/entrypoint.sh"]
